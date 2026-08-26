@@ -1,0 +1,349 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`check prompt snapshots > globals-in-views — with paired controller 1`] = `
+"Static check: \`globals-in-views\`.
+
+Inspect this SAPUI5 XML view for bindings or event handlers that point
+at things the project does not own:
+  - \`press=".handler"\` / \`change=".handler"\` etc. where \`.handler\` is
+    NOT defined on the paired controller;
+  - bindings whose path includes \`window.\`, \`globalThis.\`, or any
+    other global access expression (\`undefined\`, \`top.\`, \`parent.\`);
+  - formatter references to functions not present on the controller
+    (or not imported from a known formatter module).
+Do NOT flag bindings into a declared model (\`{i18n>...}\`, \`{/path}\`,
+\`{namedModel>/path}\`) when no global is involved.
+
+View: webapp/view/Main.view.xml
+\`\`\`xml
+<mvc:View xmlns:mvc="sap.ui.core.mvc"><Button text="Submit"/></mvc:View>
+\`\`\`
+
+Paired controller: webapp/controller/Main.controller.js
+\`\`\`javascript
+sap.ui.define([], function () { return { onInit: function () {} }; });
+\`\`\`
+
+Output: {"findings": [Finding, ...]}
+Each Finding has:
+  - "checkId": "globals-in-views"
+  - "file": "webapp/view/Main.view.xml"
+  - "line": <1-based line number in the view>
+  - "message": short description
+  - EITHER
+      "proposedFix": {"newFileContent": "<rewritten view>"}
+    (only when the fix is confined to the view file — e.g., removing a
+    stray \`window.\` reference)
+    OR
+      "proposedFix": null,
+      "explanation": "<why this needs both files / human action>"
+    (whenever the fix would also need to touch the controller).
+
+Return {"findings": []} if clean."
+`;
+
+exports[`check prompt snapshots > globals-in-views — without paired controller 1`] = `
+"Static check: \`globals-in-views\`.
+
+Inspect this SAPUI5 XML view for bindings or event handlers that point
+at things the project does not own:
+  - \`press=".handler"\` / \`change=".handler"\` etc. where \`.handler\` is
+    NOT defined on the paired controller;
+  - bindings whose path includes \`window.\`, \`globalThis.\`, or any
+    other global access expression (\`undefined\`, \`top.\`, \`parent.\`);
+  - formatter references to functions not present on the controller
+    (or not imported from a known formatter module).
+Do NOT flag bindings into a declared model (\`{i18n>...}\`, \`{/path}\`,
+\`{namedModel>/path}\`) when no global is involved.
+
+View: webapp/view/Orphan.view.xml
+\`\`\`xml
+<mvc:View xmlns:mvc="sap.ui.core.mvc"><Button text="Submit"/></mvc:View>
+\`\`\`
+
+No paired controller could be located deterministically.
+
+Output: {"findings": [Finding, ...]}
+Each Finding has:
+  - "checkId": "globals-in-views"
+  - "file": "webapp/view/Orphan.view.xml"
+  - "line": <1-based line number in the view>
+  - "message": short description
+  - EITHER
+      "proposedFix": {"newFileContent": "<rewritten view>"}
+    (only when the fix is confined to the view file — e.g., removing a
+    stray \`window.\` reference)
+    OR
+      "proposedFix": null,
+      "explanation": "<why this needs both files / human action>"
+    (whenever the fix would also need to touch the controller).
+
+Return {"findings": []} if clean."
+`;
+
+exports[`check prompt snapshots > manifest-component-drift 1`] = `
+"Static check: \`manifest-component-drift\`.
+
+Given the project's \`webapp/manifest.json\` and \`webapp/Component.js\`,
+identify drift between declarations and wiring. Look for:
+  - Routes or targets declared under \`sap.ui5.routing\` in the manifest
+    that are never referenced from Component.js (e.g., \`getRouter()\`
+    handling, target activation), or vice versa.
+  - Models or dataSources declared in the manifest that the component
+    never sets up / consumes, or models attached in Component.js that
+    are absent from the manifest.
+  - Mismatched names (typos, case drift) between the two files.
+Do NOT flag a route whose handling is the implicit default routing
+initialiser (\`this.getRouter().initialize()\` covers all manifest routes).
+
+Every finding MUST be multi-file — set \`proposedFix\` to \`null\` and put
+the human-readable rationale in \`explanation\`.
+
+----- webapp/manifest.json -----
+{"sap.app":{"type":"application"}}
+----- webapp/Component.js -----
+sap.ui.define([], function () { return { onInit: function () {} }; });
+----- end -----
+
+Output: {"findings": [Finding, ...]}
+Each Finding has:
+  - "checkId": "manifest-component-drift"
+  - "file": one of "webapp/manifest.json" or "webapp/Component.js"
+    (whichever is the better anchor for the human reader)
+  - "line": <1-based line number if known, otherwise omit>
+  - "message": short description
+  - "proposedFix": null
+  - "explanation": full rationale + recommended human action
+
+Return {"findings": []} if no drift is detected."
+`;
+
+exports[`check prompt snapshots > missing-i18n 1`] = `
+"Static check: \`missing-i18n\`.
+
+Inspect this SAPUI5 XML view. Flag human-readable string attributes that
+should be replaced with an \`{i18n>key}\` binding. Attributes that count:
+  - \`text\`, \`title\`, \`placeholder\`, \`tooltip\`, \`description\`,
+  - \`headerText\`, \`footerText\`, \`label\`.
+Do NOT flag values that already look like a binding (start with \`{\` and
+end with \`}\`), pure-numeric values, single-character icons, or values
+that are clearly identifiers (no spaces, camelCase, or ALL_CAPS).
+When proposing a fix, introduce a stable kebab-or-camelCase i18n key
+derived from the attribute name and the original text. The proposedFix
+rewrites ONLY the .view.xml file — do not attempt to edit i18n.properties.
+
+File: webapp/view/Main.view.xml
+\`\`\`xml
+<mvc:View xmlns:mvc="sap.ui.core.mvc"><Button text="Submit"/></mvc:View>
+\`\`\`
+
+Output: {"findings": [Finding, ...]}
+Each Finding has:
+  - "checkId": "missing-i18n"
+  - "file": "webapp/view/Main.view.xml"
+  - "line": <1-based line number of the offending attribute>
+  - "message": short description (include the original literal)
+  - EITHER
+      "proposedFix": {"newFileContent": "<full rewritten view content>"}
+    (when the bindings can be introduced safely within the view alone)
+    OR
+      "proposedFix": null,
+      "explanation": "<why this needs human action>"
+    (when a safe single-file rewrite is not possible).
+
+Coalesce all violations in this file into one finding. Return
+{"findings": []} if clean."
+`;
+
+exports[`check prompt snapshots > missing-teardown 1`] = `
+"Static check: \`missing-teardown\`.
+
+Inspect this QUnit test file. For each \`QUnit.module(...)\` declaration,
+check whether the \`beforeEach\` hook constructs UI controls or any object
+that owns a \`destroy()\` lifecycle. A module is in violation when:
+  - the \`beforeEach\` creates such an object AND
+  - the corresponding \`afterEach\` either is absent or does not call
+    \`destroy()\` on the created object(s).
+Do NOT flag modules whose only setup is plain data (strings, plain
+objects, mocks that do not own framework resources).
+
+File: webapp/test/unit/Main.qunit.js
+\`\`\`javascript
+QUnit.module("M");
+\`\`\`
+
+Output: {"findings": [Finding, ...]}
+Each Finding has:
+  - "checkId": "missing-teardown"
+  - "file": "webapp/test/unit/Main.qunit.js"
+  - "line": <1-based line number of the offending \`QUnit.module\` or
+    \`beforeEach\`>
+  - "message": short description
+  - EITHER
+      "proposedFix": {"newFileContent": "<full rewritten file content>"}
+    (when the missing teardown can be added safely within this file alone)
+    OR
+      "proposedFix": null,
+      "explanation": "<why this needs human action>"
+    (when a safe single-file rewrite is not possible).
+
+Coalesce all violations into a single finding whose proposedFix fixes
+every module in the file. Return {"findings": []} if clean."
+`;
+
+exports[`check prompt snapshots > missing-test-coverage — test file absent 1`] = `
+"Static check: \`missing-test-coverage\`.
+
+Enumerate the public methods exported by this controller / helper and
+identify which are NOT covered by a QUnit test. A method is "public"
+when it is attached to the returned object literal in
+\`sap.ui.define(..., function (...) { return X.extend("...", { ... }) })\`
+or is an explicitly named property on a returned module. Lifecycle
+hooks (\`onInit\`, \`onExit\`, \`onBeforeRendering\`, \`onAfterRendering\`) are
+*public* and DO count toward coverage — flag them when the test suite
+asserts nothing on them. Ignore methods whose name begins with \`_\`.
+
+A method is covered when the test file contains a \`QUnit.test(...)\`
+whose body references the method name, OR a \`QUnit.module(...)\` whose
+\`beforeEach\` constructs the controller and exercises the method.
+
+Every finding here is multi-file (a new test must be created, possibly
+with testsuite / karma glob updates). Always return \`proposedFix: null\`
+and put the rationale + suggested test outline in \`explanation\`.
+
+Controller: webapp/controller/Main.controller.js
+\`\`\`javascript
+sap.ui.define([], function () { return { onInit: function () {} }; });
+\`\`\`
+
+No test file exists at webapp/test/unit/controller/Main.controller.qunit.js.
+
+Output: {"findings": [Finding, ...]}
+Each Finding has:
+  - "checkId": "missing-test-coverage"
+  - "file": "webapp/controller/Main.controller.js"
+  - "line": <line where the uncovered method is declared, if known>
+  - "message": "<method name> has no test"
+  - "proposedFix": null
+  - "explanation": "<which test is missing and a sketch of what it
+     should assert>"
+
+Return {"findings": []} if every public method is covered."
+`;
+
+exports[`check prompt snapshots > missing-test-coverage — test file present 1`] = `
+"Static check: \`missing-test-coverage\`.
+
+Enumerate the public methods exported by this controller / helper and
+identify which are NOT covered by a QUnit test. A method is "public"
+when it is attached to the returned object literal in
+\`sap.ui.define(..., function (...) { return X.extend("...", { ... }) })\`
+or is an explicitly named property on a returned module. Lifecycle
+hooks (\`onInit\`, \`onExit\`, \`onBeforeRendering\`, \`onAfterRendering\`) are
+*public* and DO count toward coverage — flag them when the test suite
+asserts nothing on them. Ignore methods whose name begins with \`_\`.
+
+A method is covered when the test file contains a \`QUnit.test(...)\`
+whose body references the method name, OR a \`QUnit.module(...)\` whose
+\`beforeEach\` constructs the controller and exercises the method.
+
+Every finding here is multi-file (a new test must be created, possibly
+with testsuite / karma glob updates). Always return \`proposedFix: null\`
+and put the rationale + suggested test outline in \`explanation\`.
+
+Controller: webapp/controller/Main.controller.js
+\`\`\`javascript
+sap.ui.define([], function () { return { onInit: function () {} }; });
+\`\`\`
+
+Existing test file: webapp/test/unit/controller/Main.controller.qunit.js
+\`\`\`javascript
+QUnit.test("onInit", function (a) { a.ok(true); });
+\`\`\`
+
+Output: {"findings": [Finding, ...]}
+Each Finding has:
+  - "checkId": "missing-test-coverage"
+  - "file": "webapp/controller/Main.controller.js"
+  - "line": <line where the uncovered method is declared, if known>
+  - "message": "<method name> has no test"
+  - "proposedFix": null
+  - "explanation": "<which test is missing and a sketch of what it
+     should assert>"
+
+Return {"findings": []} if every public method is covered."
+`;
+
+exports[`check prompt snapshots > no-direct-dom 1`] = `
+"Static check: \`no-direct-dom\`.
+
+Inspect this SAPUI5 controller for direct DOM access that should be
+replaced with \`this.byId(...)\` or a stored control reference. Flag uses
+of \`document.querySelector\`, \`document.getElementById\`, \`document.getElementsBy*\`,
+and jQuery selector calls like \`$(...)\` or \`jQuery(...)\` that target DOM
+nodes the controller owns. Do NOT flag \`byId()\` calls or property reads
+on framework objects (e.g., \`this.getView().byId(...)\`).
+
+File: webapp/controller/Main.controller.js
+\`\`\`javascript
+sap.ui.define([], function () { return { onInit: function () {} }; });
+\`\`\`
+
+Output: a single JSON object
+  {"findings": [Finding, ...]}
+where each Finding has:
+  - "checkId": "no-direct-dom"
+  - "file": "webapp/controller/Main.controller.js"
+  - "line": <1-based line number where the offending call appears>
+  - "message": short description of the violation
+  - EITHER
+      "proposedFix": {"newFileContent": "<full rewritten file content>"}
+    (when the violations can be rewritten safely within this file alone)
+    OR
+      "proposedFix": null,
+      "explanation": "<why this needs human action>"
+    (when a safe single-file rewrite is not possible).
+
+If multiple violations exist in the same file, produce a single finding
+whose proposedFix rewrites all of them at once. If the file is clean,
+return {"findings": []}."
+`;
+
+exports[`check prompt snapshots > no-sync-odata 1`] = `
+"Static check: \`no-sync-odata\`.
+
+Inspect this SAPUI5 JavaScript file for synchronous OData / model usage.
+Flag:
+  - any options object passed to \`new ODataModel(...)\`, \`new JSONModel(...)\`,
+    \`loadData\`, \`read\`, \`create\`, \`update\`, or \`remove\` that contains
+    \`async: false\`;
+  - any call to \`loadData(...)\` whose last positional argument is the
+    literal \`false\` (legacy sync form);
+  - any property assignment that sets \`bSynchronous = true\` or
+    \`useBatch = false\` on an OData v2 model where the surrounding code
+    awaits no promise.
+Do not flag idiomatic async usage (Promise-returning calls, \`requestObject\`,
+\`requestProperty\`, etc.).
+
+File: webapp/controller/Main.controller.js
+\`\`\`javascript
+sap.ui.define([], function () { return { onInit: function () {} }; });
+\`\`\`
+
+Output: a single JSON object {"findings": [Finding, ...]}
+Each Finding has:
+  - "checkId": "no-sync-odata"
+  - "file": "webapp/controller/Main.controller.js"
+  - "line": <1-based line number>
+  - "message": short description
+  - EITHER
+      "proposedFix": {"newFileContent": "<full rewritten file content>"}
+    (when the violations can be rewritten safely within this file alone)
+    OR
+      "proposedFix": null,
+      "explanation": "<why this needs human action>"
+    (when a safe single-file rewrite is not possible).
+
+Coalesce multiple violations in the same file into one finding whose
+proposedFix rewrites them all. Return {"findings": []} if clean."
+`;

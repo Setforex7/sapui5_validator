@@ -1,0 +1,12 @@
+<mvc:View
+  controllerName="minimal.project.controller.Main"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  displayBlock="true">
+  <Page id="page" title="{i18n>appTitle}">
+    <content>
+      <!-- SEEDED BREAK (missing-i18n): hardcoded English label. -->
+      <Button id="submitBtn" text="Submit" press=".onSubmitPress" />
+    </content>
+  </Page>
+</mvc:View>

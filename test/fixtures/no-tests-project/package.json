@@ -1,0 +1,13 @@
+{
+  "name": "no-tests-project",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Fixture: SAPUI5 app with no tests and no karma config.",
+  "scripts": {
+    "lint": "ui5lint"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3.9.0",
+    "@ui5/linter": "^1.0.0"
+  }
+}

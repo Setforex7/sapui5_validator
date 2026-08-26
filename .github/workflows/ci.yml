@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: ${{ matrix.os }} / Node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
+      # Type-check the whole tree, including the test sources that the src-only
+      # `build` (tsc -p tsconfig.json) and esbuild-backed `test` never check.
+      # This is the gate that would have caught the Phase-2 capState slip.
+      - run: npm run typecheck:test
+      - run: npm test
+      # Supply-chain gate: production deps must stay vulnerability-free. Dev-only
+      # advisories (vitest/tsx/esbuild chain) never ship, so scope to --omit=dev.
+      - run: npm audit --omit=dev
+      # Packaging smoke: the published tarball must build cleanly and stay
+      # restricted to dist/ + docs (no src/test/coverage/.tgz leak).
+      - run: npm pack --dry-run

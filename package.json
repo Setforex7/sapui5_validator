@@ -1,0 +1,82 @@
+{
+  "name": "sapui5-validator",
+  "version": "1.5.1",
+  "description": "A CLI that validates SAPUI5 projects and generates tests using a hybrid deterministic-plus-LLM approach.",
+  "type": "module",
+  "main": "dist/cli.js",
+  "bin": {
+    "sapui5-validate": "dist/cli.js"
+  },
+  "files": [
+    "dist/",
+    "!dist/**/*.map",
+    "README.md",
+    "SPEC.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/cli.ts",
+    "lint": "eslint .",
+    "typecheck:test": "tsc -p tsconfig.eslint.json --noEmit",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e-real": "cross-env VALIDATOR_E2E_REAL=1 vitest run",
+    "release:check": "node scripts/release-check.mjs",
+    "prepublishOnly": "npm run build && npm run release:check"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "execa": "^9.5.1",
+    "fast-glob": "^3.3.2",
+    "picocolors": "^1.1.1",
+    "simple-git": "^3.27.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "@vitest/coverage-v8": "^2.1.5",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.15.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.15.0",
+    "vitest": "^2.1.5"
+  },
+  "keywords": [
+    "sapui5",
+    "openui5",
+    "ui5",
+    "fiori",
+    "validator",
+    "linter",
+    "ui5lint",
+    "qunit",
+    "opa5",
+    "karma",
+    "test-generation",
+    "static-analysis",
+    "cli",
+    "claude",
+    "llm"
+  ],
+  "author": "Tomás Rocha <tomas.alexandree205@gmail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Setforex7/sapui5_validator.git"
+  },
+  "homepage": "https://github.com/Setforex7/sapui5_validator#readme",
+  "bugs": {
+    "url": "https://github.com/Setforex7/sapui5_validator/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "_version": "1.40.0",
+  "sap.app": {
+    "id": "e2e.real.ts",
+    "type": "application",
+    "title": "{{appTitle}}",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": { "version": "0.0.1" }
+  },
+  "sap.ui": { "technology": "UI5" },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "e2e.real.ts.view.App",
+      "type": "XML",
+      "id": "app"
+    },
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": { "sap.m": {}, "sap.ui.core": {} }
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": { "bundleName": "e2e.real.ts.i18n.i18n" }
+      }
+    }
+  }
+}

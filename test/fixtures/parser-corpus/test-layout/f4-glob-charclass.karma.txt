@@ -1,0 +1,8 @@
+module.exports = function (config) {
+  config.set({
+    files: [
+      'webapp/test/[abc]/**/*.qunit.js', /* ] in comment */
+      'webapp/test/integration/**/*.qunit.js'
+    ],
+  });
+};

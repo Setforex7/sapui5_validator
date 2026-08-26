@@ -1,0 +1,32 @@
+Task: generate a QUnit unit test file for the following SAPUI5 controller.
+
+Controller path: webapp/controller/Main.controller.js
+Test file to create: webapp/test/unit/controller/Main.controller.qunit.js
+Project namespace: demo.app
+Controller module id (import the controller under test with EXACTLY this id, unchanged): demo/app/controller/Main.controller
+
+Controller source:
+```javascript
+sap.ui.define([], function () { return { onInit: function () {} }; });
+```
+
+Requirements:
+  - Use `sap.ui.define([...], function (...) { ... })`.
+  - Import the controller under test by the exact "Controller module id" shown
+    above. Do NOT add, drop, or rename any path segment (a `*.controller.js`
+    file keeps its trailing `.controller`).
+  - Use the `QUnit.module(name, { beforeEach, afterEach })` hook to
+    construct the controller instance under test and dispose of any
+    SAPUI5 controls created in `beforeEach` via `destroy()` in
+    `afterEach` (SPEC §2.8 check #3 forbids leaks).
+  - Add a `QUnit.test` for each public method on the controller
+    (including lifecycle hooks `onInit`, `onExit`, `onBefore/AfterRendering`),
+    except methods whose name begins with `_`.
+  - Each test must assert something concrete (`assert.ok` / `assert.equal` /
+    `assert.strictEqual` / `assert.deepEqual`). No empty test bodies.
+  - Do NOT call browser-only APIs (`document.*`, `window.*`) directly.
+  - Do NOT introduce new dependencies beyond `sap.ui.*` modules.
+
+Return ONLY a single JSON object of the shape:
+{ "newFileContent": "<complete contents of the .qunit.js file>" }
+No prose, no markdown fences.

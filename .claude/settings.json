@@ -1,0 +1,16 @@
+{
+  "$comment": "Checked-in project settings for sapui5-validator. Tracked in git (unlike .claude/settings.local.json, which .gitignore excludes) so the guard survives across machines and cycles. The PreToolUse hook runs scripts/guard-precommit.mjs before every Bash/PowerShell command; the guard FAILS OPEN (any error exits 0) and only blocks (exit 2) the cheap test suite run while VALIDATOR_E2E_REAL leaks in the env. See .claude/WORKFLOW.md.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/guard-precommit.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

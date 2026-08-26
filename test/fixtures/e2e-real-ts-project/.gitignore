@@ -1,0 +1,6 @@
+node_modules/
+.npm-install-done
+package-lock.json
+.sapui5-validator/
+# tsc emits this incremental cache for `composite: true` tsconfigs.
+*.tsbuildinfo

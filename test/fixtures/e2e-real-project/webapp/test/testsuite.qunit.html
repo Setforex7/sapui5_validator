@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QUnit test suite for e2e.real.project</title>
+  <meta charset="utf-8">
+  <script
+    id="sap-ui-bootstrap"
+    src="../resources/sap-ui-core.js"
+    data-sap-ui-resourceroots='{ "e2e.real.project": "../" }'
+    data-sap-ui-async="true"></script>
+  <link rel="stylesheet" href="../resources/sap/ui/thirdparty/qunit-2.css" type="text/css" media="screen" />
+  <script src="../resources/sap/ui/thirdparty/qunit-2.js"></script>
+  <script src="../resources/sap/ui/qunit/qunit-junit.js"></script>
+  <script>
+    QUnit.config.autostart = false;
+    sap.ui.require([
+      "e2e/real/project/test/unit/controller/Main.controller.qunit"
+    ], function () {
+      QUnit.start();
+    });
+  </script>
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+</body>
+</html>

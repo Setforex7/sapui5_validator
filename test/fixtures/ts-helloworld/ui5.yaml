@@ -1,0 +1,25 @@
+specVersion: "4.0"
+metadata:
+  name: ui5.typescript.helloworld
+type: application
+framework:
+  name: OpenUI5
+  version: "1.120.0"
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+builder:
+  customTasks:
+    # TS-SAPUI5 transpile: ES-module/class .ts -> sap.ui.define AMD via Babel.
+    # The validator NEVER runs this task (never-build firewall, TS-V1); it is
+    # here only so detection's secondary signal recognises a TS project and so
+    # the fixture mirrors a real SAP ui5-typescript app shape.
+    - name: ui5-tooling-transpile-task
+      afterTask: replaceVersion
+      configuration:
+        debug: true
+        omitSourceMaps: true
+server:
+  customMiddleware:
+    - name: ui5-tooling-transpile-middleware
+      afterMiddleware: compression

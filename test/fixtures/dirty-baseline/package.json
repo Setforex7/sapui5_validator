@@ -1,0 +1,14 @@
+{
+  "name": "dirty-baseline",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Fixture: SAPUI5 app with pre-existing baseline lint failures.",
+  "scripts": {
+    "lint": "ui5lint && eslint webapp/"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3.9.0",
+    "@ui5/linter": "^1.0.0",
+    "eslint": "^9.0.0"
+  }
+}

@@ -1,0 +1,11 @@
+<mvc:View
+  controllerName="e2e.real.project.controller.Details"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  displayBlock="true">
+  <Page id="detailsPage" title="{i18n>detailsTitle}" showNavButton="true">
+    <content>
+      <Text id="detailsText" text="{i18n>detailsPlaceholder}" />
+    </content>
+  </Page>
+</mvc:View>

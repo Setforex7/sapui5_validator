@@ -1,0 +1,17 @@
+<mvc:View
+  controllerName="e2e.real.project.controller.Main"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  displayBlock="true">
+  <Page id="page" title="{i18n>mainTitle}">
+    <content>
+      <Input id="searchInput" placeholder="{i18n>searchPlaceholder}" />
+      <!-- SEEDED BREAK (missing-i18n):
+           The "Save" label is hardcoded instead of bound through the
+           i18n model (`text="{i18n>save}"`). The missing-i18n check
+           (SPEC §2.8 #4) flags hardcoded user-visible strings. -->
+      <Button id="saveBtn" text="Save" press=".onPress" />
+      <Button id="loadBtn" text="{i18n>loadData}" press=".onLoadData" />
+    </content>
+  </Page>
+</mvc:View>

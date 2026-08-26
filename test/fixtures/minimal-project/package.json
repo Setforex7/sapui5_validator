@@ -1,0 +1,18 @@
+{
+  "name": "minimal-project",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Fixture: minimum-viable SAPUI5 app for sapui5-validator integration tests.",
+  "scripts": {
+    "lint": "ui5lint",
+    "test": "karma start"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3.9.0",
+    "@ui5/linter": "^1.0.0",
+    "eslint": "^9.0.0",
+    "karma": "^6.4.0",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-ui5": "^4.0.0"
+  }
+}

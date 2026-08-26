@@ -1,0 +1,7 @@
+module.exports = function (config) {
+  // client: { libs: ['sap.decoy'] }
+  config.set({
+    client: { libs: ['sap.m', 'sap.f'] },
+    ui5: { url: 'https://ui5.sap.com' }
+  });
+};

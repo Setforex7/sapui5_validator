@@ -1,0 +1,9 @@
+node_modules/
+.npm-install-done
+package-lock.json
+.sapui5-validator/
+
+# Files seeded by test/e2e-real/setup.ts (Bug 4 and Bug 2 inputs). These are
+# recreated on every VALIDATOR_E2E_REAL=1 run and intentionally never committed.
+webapp/util/dummy-vendor.min.js
+webapp/util/oversized-input.js

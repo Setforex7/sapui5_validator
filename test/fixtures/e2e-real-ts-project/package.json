@@ -1,0 +1,19 @@
+{
+  "name": "e2e-real-ts-project",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Fixture: real TypeScript-SAPUI5 app exercised by VALIDATOR_E2E_REAL tests. Mirrors SAP's ui5-typescript-helloworld shape (ES import + class + JSDoc @namespace). Real devDependencies are installed on first E2E run by test/e2e-real/setup.ts. The CLI NEVER runs the ui5-tooling-transpile task (never-build firewall, TS-V1).",
+  "scripts": {
+    "lint": "ui5lint",
+    "ts-typecheck": "tsc --noEmit",
+    "build": "ui5 build"
+  },
+  "devDependencies": {
+    "@openui5/types": "~1.120.0",
+    "@types/qunit": "^2.19.0",
+    "@ui5/cli": "^3.9.0",
+    "@ui5/linter": "^1.6.0",
+    "typescript": "^5.6.3",
+    "ui5-tooling-transpile": "^3.0.0"
+  }
+}

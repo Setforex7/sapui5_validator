@@ -1,0 +1,3 @@
+The issue: controller-module-id mismatch.
+
+{"newFileContent":"sap.ui.define([],function(){});"}

@@ -1,0 +1,36 @@
+name: Release (npm publish)
+
+# Publish stays MANUAL — a GitHub Release, never a tag push.
+#
+# The trigger below is `release: published`, NOT `push: { tags: }`,
+# deliberately: pushing a version tag alone must never fire a publish. This
+# workflow runs only when a GitHub *Release* is published for a tag. The
+# provenance publish needs `id-token: write` (OIDC) and an `NPM_TOKEN` repo
+# secret with publish rights; until that secret exists, publishing a Release
+# fails safely without shipping anything.
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write # OIDC attestation for `npm publish --provenance`
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # Re-gate before publishing: never ship a tarball the suite hasn't passed.
+      - run: npm test
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

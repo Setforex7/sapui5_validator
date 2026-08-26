@@ -1,0 +1,48 @@
+{
+  "_version": "1.40.0",
+  "sap.app": {
+    "id": "minimal.project",
+    "type": "application",
+    "title": "{{appTitle}}",
+    "applicationVersion": { "version": "0.0.1" },
+    "i18n": "i18n/i18n.properties"
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "minimal.project.view.Main",
+      "type": "XML",
+      "id": "app"
+    },
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": { "sap.m": {}, "sap.ui.core": {} }
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": { "bundleName": "minimal.project.i18n.i18n" }
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "minimal.project.view",
+        "controlId": "app",
+        "controlAggregation": "pages"
+      },
+      "routes": [
+        { "pattern": "", "name": "main", "target": "main" },
+        { "pattern": "details/{id}", "name": "details", "target": "details" }
+      ],
+      "targets": {
+        "main":    { "viewName": "Main",    "viewLevel": 1 },
+        "details": { "viewName": "Details", "viewLevel": 2 }
+      }
+    }
+  }
+}

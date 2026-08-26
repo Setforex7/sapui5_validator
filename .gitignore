@@ -1,0 +1,24 @@
+node_modules/
+dist/
+build/
+*.log
+.env
+.env.*
+coverage/
+.DS_Store
+*.tgz
+.vscode/
+.idea/
+.claude/local/
+.claude/settings.local.json
+.eslintcache
+.v1.3-state.md
+graphify-out/
+
+# Maintainer working documents — local only, never tracked
+/plans/
+/diagnosis/
+/adjustments/
+/audits/
+/lessons/
+/docs/runs/

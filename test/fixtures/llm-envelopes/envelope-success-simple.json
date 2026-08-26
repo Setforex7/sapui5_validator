@@ -1,0 +1,59 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "duration_ms": 3409,
+  "duration_api_ms": 3355,
+  "num_turns": 1,
+  "result": "I see the system reminders. Standing by for your request.",
+  "stop_reason": "end_turn",
+  "session_id": "945e380f-a63b-45a7-b5c8-ac56f053b071",
+  "total_cost_usd": 0.07007925000000001,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 9601,
+    "cache_read_input_tokens": 19086,
+    "output_tokens": 20,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 9601,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [
+      {
+        "input_tokens": 6,
+        "output_tokens": 20,
+        "cache_read_input_tokens": 19086,
+        "cache_creation_input_tokens": 9601,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 9601
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-opus-4-7[1m]": {
+      "inputTokens": 6,
+      "outputTokens": 20,
+      "cacheReadInputTokens": 19086,
+      "cacheCreationInputTokens": 9601,
+      "webSearchRequests": 0,
+      "costUSD": 0.07007925000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "uuid": "9ce2022f-93f3-4d07-bf74-07e7ad61c016"
+}

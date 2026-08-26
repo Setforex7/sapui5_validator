@@ -1,0 +1,31 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "duration_ms": 4120,
+  "duration_api_ms": 4071,
+  "num_turns": 1,
+  "result": "{\"findings\":[]}",
+  "stop_reason": "end_turn",
+  "session_id": "1f1d3c2a-7b44-4e90-9c11-2d5f6a8b0e33",
+  "total_cost_usd": 0.0418,
+  "usage": {
+    "input_tokens": 812,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 19086,
+    "output_tokens": 7,
+    "service_tier": "standard"
+  },
+  "modelUsage": {
+    "claude-opus-4-7[1m]": {
+      "inputTokens": 812,
+      "outputTokens": 7,
+      "costUSD": 0.0418
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "uuid": "2b6f0c91-4d27-4a5e-8f3b-91a0d7e6c4f2"
+}

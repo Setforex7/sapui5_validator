@@ -1,0 +1,11 @@
+<mvc:View
+  controllerName="e2e.real.project.controller.Settings"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  displayBlock="true">
+  <Page id="settingsPage" title="{i18n>settingsTitle}" showNavButton="true">
+    <content>
+      <Text id="settingsText" text="{i18n>settingsPlaceholder}" />
+    </content>
+  </Page>
+</mvc:View>
